@@ -4,8 +4,6 @@ const { secret, expiresIn } = require('../../config');
 
 const tokenService = {
   create: async function (username, password) {
-    console.log(username, password);
-
     if (!(username === 'jonathan' && password === 'demo123')) {
       return new BadRequestError('Usuário e senha inválidos');
     }
