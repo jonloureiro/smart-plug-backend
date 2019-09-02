@@ -17,6 +17,7 @@
   "dependencies": {
     "jsonwebtoken": "^8.5.1",
     "restify": "^8.4.0",
+    "restify-cors-middleware": "^1.1.1",
     "restify-errors": "^8.0.1",
     "ws": "^7.1.2"
   },
