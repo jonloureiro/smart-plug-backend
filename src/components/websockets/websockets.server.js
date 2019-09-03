@@ -1,12 +1,23 @@
 const WebSocket = require('ws');
+const jwt = require('jsonwebtoken');
+const { secret } = require('../../config');
 
 const verifyClient = ({ req: { headers } }) => {
   if (headers['sec-websocket-protocol'] !== 'jonloureiro.dev') return false;
-  const data = headers.authorization.split(' ')[1];
-  const buff = Buffer.from(data, 'base64');
-  const [user, password] = buff.toString('ascii').split(':');
-  if (!(user === 'esp32_123' && password === 'demo123')) return false;
-  return true;
+  try {
+    if (headers.authorization !== undefined) {
+      const data = headers.authorization.split(' ')[1];
+      const buff = Buffer.from(data, 'base64');
+      const [user, password] = buff.toString('ascii').split(':');
+      if (!(user === 'esp32_123' && password === 'demo123')) return false;
+    } else {
+      const token = headers.cookie.split('=')[1];
+      jwt.verify(token, secret);
+    }
+    return true;
+  } catch (err) {
+    return false;
+  }
 };
 
 module.exports = server => {
